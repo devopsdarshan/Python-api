@@ -1,0 +1,104 @@
+# Steps
+######Make sure that the instance has atleast 4gb ram as just elasticsearch takes 2 gb ram ##jai free tier 
+1) my image which we will use to generate logs:
+ darshanraul/awsapi:latest
+ 
+ -you can run using: docker run -it -p 8080:8080 darshanraul/awsapi:latest (can use -d if u want it detached)
+ 
+-It runs on 8080:8080 port so make sure thats open in security group/firewall
+ 
+ 
+2) all the logs generated will be stored here: This include all the Elastic stack containers too( /var/lib/docker/containers/*/*.log  )
+
+
+###I used this :https://www.elastic.co/guide/en/elastic-stack-get-started/current/get-started-docker.html for reference so feel free to refer it whenever u face issues , its very well documented
+###Iam using the latest official docker images here as 7.00 is still in beta
+
+
+3)######################ELASTIC SEARCH###############
+
+docker run -it -d -p 9200:9200 -p 9300:9300 -h elasticsearch --name elasticsearch docker.elastic.co/elasticsearch/elasticsearch:6.7.0
+	#h is for hostname which we will use later others are the usual port,name ones >>https://docs.docker.com/engine/reference/commandline/run/
+	#u may face this issue here as I too did  https://github.com/docker-library/elasticsearch/issues/111 its regarding virtual memory
+	
+4) Once done u can confirm elasticsearch is running using curl:
+root@docker-ubuntu-1:~# curl http://localhost:9200
+{
+  "name" : "7GfB9Aj",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "vYyfkHVoSNS2Y11BdIdllQ",
+  "version" : {
+    "number" : "6.7.0",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "8453f77",
+    "build_date" : "2019-03-21T15:32:29.844721Z",
+    "build_snapshot" : false,
+    "lucene_version" : "7.7.0",
+    "minimum_wire_compatibility_version" : "5.6.0",
+    "minimum_index_compatibility_version" : "5.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+
+-you should get similar response
+
+5)############KIBANA#################
+
+docker run -it -d -p 5601:5601 --link elasticsearch:elasticsearch   -h kibana --name kibana docker.elastic.co/kibana/kibana:6.7.0
+
+# gave hostname as kibana and linked it to the elasticsearch container which has this format >>>> (--link <name or id>:alias)
+
+#DONE!! now go to your browser:: <Your instance Publoc ip>:5601 ### make sure this port and 9200,9300 is open
+
+-You should be able to see the kibana dashboard
+
+
+6) ##################LOGSTASH#######################
+
+-choose or create a directory..name it as per ur wish.. cd to it
+
+vi logstash.conf
+input{
+stdin {}
+}
+
+output{
+elasticsearch {hosts =>['elasticsearch:9200']}
+
+}
+
+-Once done run this command
+
+docker run -it -h logstash --name logstash  --link elasticsearch:elasticsearch  -v .:-f /usr/share/logstash/pipeline/ docker.elastic.co/logstash/logstash:6.7.0 -f /usr/share/logstash/pipeline/logstash.conf
+
+
+
+
+
+
+#####################################incomplete compose file as iam planning to swarm this with my container.. but u can use this too....
+version: '1.0'
+
+services:
+
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.0
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.7.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch:9200"
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+
+ 
+	

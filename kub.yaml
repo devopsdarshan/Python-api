@@ -1,0 +1,42 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "awsapi"
+  namespace: "default"
+  labels:
+    app: "awsapi"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "awsapi"
+  template:
+    metadata:
+      labels:
+        app: "awsapi"
+    spec:
+      containers:
+      - name: "awsapi"
+        image: "darshanraul/awsapi:latest"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "awsapi-hpa"
+  namespace: "default"
+  labels:
+    app: "awsapi"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "awsapi"
+    apiVersion: "apps/v1beta1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+

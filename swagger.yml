@@ -1,0 +1,424 @@
+---
+swagger: '2.0'
+basePath: "/"
+paths:
+  "/ec2/instances":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the instances
+      operationId: get_instances
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - EC2
+    post:
+      responses:
+        '200':
+          description: Success
+      summary: Create instance
+      operationId: post_instances
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      - description: Operating System
+        name: os
+        type: string
+        in: query
+      - description: Instance Type
+        name: instance_type
+        type: string
+        in: query
+      - description: No of Instances
+        name: count
+        type: string
+        in: query
+      - description: Keypair Name
+        name: keyname
+        type: string
+        in: query
+      - description: Application name
+        name: app
+        type: string
+        in: query
+      tags:
+      - EC2
+  "/ec2/instances/{instance_id}":
+    parameters:
+    - name: instance_id
+      in: path
+      required: true
+      type: string
+    delete:
+      responses:
+        '200':
+          description: Success
+      summary: Terminate the instances
+      operationId: delete_instance_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - EC2
+  "/ec2/instances/{instance_id}/{running_state}":
+    parameters:
+    - name: instance_id
+      in: path
+      required: true
+      type: string
+    - name: running_state
+      in: path
+      required: true
+      type: string
+    post:
+      responses:
+        '200':
+          description: Success
+      summary: Start or Stop a server
+      operationId: post_instance_start_stop
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - EC2
+  "/ec2/keypairs":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the keypairs in this region
+      operationId: get_keypair
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - EC2
+  "/iam/credentials":
+    post:
+      responses:
+        '200':
+          description: Success
+      operationId: post_credentials
+      parameters:
+      - description: Operating System
+        name: os
+        type: string
+        in: query
+      tags:
+      - IAM
+  "/iam/groups":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the groups in your account
+      operationId: get_groups
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+  "/iam/groups/{group_name}":
+    parameters:
+    - name: group_name
+      in: path
+      required: true
+      type: string
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get the group details
+      operationId: get_group_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+    delete:
+      responses:
+        '200':
+          description: Success
+      summary: Delete an group in your account
+      operationId: delete_group_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+    post:
+      responses:
+        '200':
+          description: Success
+      summary: Create a Group in your account
+      operationId: post_group_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+  "/iam/groups/{group_name}/{user_name}":
+    parameters:
+    - name: group_name
+      in: path
+      required: true
+      type: string
+    - name: user_name
+      in: path
+      required: true
+      type: string
+    post:
+      responses:
+        '200':
+          description: Success
+      summary: Add an user to a Group
+      operationId: post_groups_users
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+  "/iam/roles":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the roles in your account
+      operationId: get_roles
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+  "/iam/users":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the Users in your account
+      operationId: get_users
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+  "/iam/users/{user_name}":
+    parameters:
+    - name: user_name
+      in: path
+      required: true
+      type: string
+    delete:
+      responses:
+        '200':
+          description: Success
+      summary: Delete an User in your account
+      operationId: delete_user_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+    post:
+      responses:
+        '200':
+          description: Success
+      summary: Create an User in your account
+      operationId: post_user_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - IAM
+  "/route53/healthchecks":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the healthchecks
+      operationId: get_health_checks
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - Route53
+  "/route53/hostedzones":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the hostedzones
+      operationId: get_hosted_zones
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - Route53
+  "/route53/hostedzones/{hostedzone_name}":
+    parameters:
+    - name: hostedzone_name
+      in: path
+      required: true
+      type: string
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get information of specified hostedzone
+      operationId: get_hosted_zone
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - Route53
+  "/route53/trafficpolicies":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the trafficpolicies
+      operationId: get_traffic_policies
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - Route53
+  "/s3/buckets":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the buckets
+      operationId: get_buckets
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - S3
+  "/s3/buckets/{bucket_name}":
+    parameters:
+    - name: bucket_name
+      in: path
+      required: true
+      type: string
+    delete:
+      responses:
+        '200':
+          description: Success
+      summary: Delete a bucket
+      operationId: delete_buckets_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - S3
+    post:
+      responses:
+        '200':
+          description: Success
+      summary: Create a bucket
+      operationId: post_buckets_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - S3
+  "/s3/objects":
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the objects in all buckets
+      operationId: get_objects
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - S3
+  "/s3/objects/{bucket_name}":
+    parameters:
+    - name: bucket_name
+      in: path
+      required: true
+      type: string
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Get all the objects in given bucket
+      operationId: get_objects_ops
+      parameters:
+      - description: profile_name
+        name: profile
+        type: string
+        in: query
+      tags:
+      - S3
+info:
+  title: AWS API
+  version: '1.0'
+  description: Use this API to interact with your AWS services
+produces:
+- application/json
+consumes:
+- application/json
+tags:
+- name: S3
+  description: Api's to interact with AWS S3
+- name: EC2
+  description: Api's to interact with AWS EC2
+- name: IAM
+  description: Api's to interact with AWS IAM
+- name: Route53
+  description: Api's to interact with AWS Route53
+responses:
+  ParseError:
+    description: When a mask can't be parsed
+  MaskError:
+    description: When any error occurs on mask
