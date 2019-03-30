@@ -1,9 +1,9 @@
 # Python-REST-API-for-AWS
 
-![AWS API](https://github.com/DarshanRaul94/Python-REST-API-for-AWS/blob/master/Screenshots/2march.png)
+![AWS API](https://github.com/devopsdarshan/Python-REST-API-for-AWS/blob/master/Screenshots/2march.png)
 
 # Google Firebase Real-time Database to hold the keys for AWS users
-![Firebase console](https://github.com/DarshanRaul94/Python-REST-API-for-AWS/blob/master/Screenshots/firebaseconsole.png)
+![Firebase console](https://github.com/devopsdarshan/Python-REST-API-for-AWS/blob/master/Screenshots/firebaseconsole.png)
 # Pre-requisites:
 
 Make sure that you run ```aws configure``` on the server/machine you will be running it because the code will be using those credentials while executing the code.
@@ -11,7 +11,7 @@ Make sure that you run ```aws configure``` on the server/machine you will be run
 # Steps:
 
 1) Download the repository:
-```git clone https://github.com/DarshanRaul94/Python-REST-API-for-AWS.git ```
+```git clone https://github.com/devopsdarshan/Python-REST-API-for-AWS.git ```
 
 2) Change to that directory:
 ```cd Python-REST-API-for-AWS```
@@ -35,20 +35,4 @@ You should get similar output:
  * Debugger PIN: 280-246-667
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
-# Steps if you want to containerize the app
 
-1) Run the Docker build command:
-
-```docker build -t <image-name> . ```
-
-2) Check if the image is created:
-
-```docker images```
-
-3) Run the docker image:
-
-```docker run -it -p 8080:8080 <image-name>```
-
-use -d if you want to run in detached mode
-
-```docker run -it -d -p 8080:8080 <image-name>```
