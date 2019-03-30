@@ -1,6 +1,6 @@
-# Steps
+# Steps'
 ######Make sure that the instance has atleast 4gb ram as just elasticsearch takes 2 gb ram ##jai free tier 
-1) my image which we will use to generate logs:
+1. my image which we will use to generate logs:
  darshanraul/awsapi:latest
  
  -you can run using: docker run -it -p 8080:8080 darshanraul/awsapi:latest (can use -d if u want it detached)
