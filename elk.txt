@@ -1,6 +1,5 @@
-# Steps'
 ######Make sure that the instance has atleast 4gb ram as just elasticsearch takes 2 gb ram ##jai free tier 
-1. my image which we will use to generate logs:
+1) my image which we will use to generate logs:
  darshanraul/awsapi:latest
  
  -you can run using: docker run -it -p 8080:8080 darshanraul/awsapi:latest (can use -d if u want it detached)
@@ -58,19 +57,33 @@ docker run -it -d -p 5601:5601 --link elasticsearch:elasticsearch   -h kibana --
 
 -choose or create a directory..name it as per ur wish.. cd to it
 
-vi logstash.conf
-input{
+1. vi logstash.conf 
+
+2. input{
 stdin {}
 }
 
 output{
 elasticsearch {hosts =>['elasticsearch:9200']}
-
+ user => elastic
+  password => changeme
 }
+
+##Structure is like this:
+
+
+
+input {
+}
+ filter {
+}
+output {
+}
+
 
 -Once done run this command
 
-docker run -it -h logstash --name logstash  --link elasticsearch:elasticsearch  -v .:-f /usr/share/logstash/pipeline/ docker.elastic.co/logstash/logstash:6.7.0 -f /usr/share/logstash/pipeline/logstash.conf
+docker run -it -h logstash --name logstash  --link elasticsearch:elasticsearch   -v ~/pipeline:/pipeline docker.elastic.co/logstash/logstash:6.7.0  -f /usr/share/logstash/pipeline/logstash.conf
 
 
 
